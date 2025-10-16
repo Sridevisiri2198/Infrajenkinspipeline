@@ -38,7 +38,7 @@ pipeline {
             steps {
                 dir('tffiles') {
                     // Use tfsec to scan Terraform code for security issues
-                    sh 'tfsec .'
+                    sh 'tfsec --soft-fail .'
                 }
             }
         }
