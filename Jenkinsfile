@@ -6,7 +6,7 @@ pipeline{
     stages {
         stage('git checkout') {
             steps {
-                git url:'https://github.com/divyarekulapally/infra_repo.git',
+                git url:'https://github.com/Sridevisiri2198/Infrajenkinspipeline.git',
                 branch:'main'
             }
         }
