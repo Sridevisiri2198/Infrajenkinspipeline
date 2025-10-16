@@ -6,55 +6,66 @@ pipeline {
     stages {
         stage('Git Checkout') {
             steps {
-                git url: 'https://github.com/Sridevisiri2198/Infrajenkinspipeline.git',  branch: 'main'
+                git url: 'https://github.com/Sridevisiri2198/Infrajenkinspipeline.git', branch: 'main'
             }
         }
 
         stage('Terraform Init') {
             steps {
-                dir(Infrajenkinspipeline) {
-                sh 'terraform init'
-                
+                dir('Infrajenkinspipeline') {
+                    sh 'terraform init'
+                }
             }
         }
 
         stage('Terraform Validate') {
             steps {
-                sh 'terraform validate'
+                dir('Infrajenkinspipeline') {
+                    sh 'terraform validate'
+                }
             }
         }
 
         stage('Terraform Format') {
             steps {
-                sh 'terraform fmt'
+                dir('Infrajenkinspipeline') {
+                    sh 'terraform fmt'
+                }
             }
         }
 
         stage('Infra Scan') {
             steps {
-                // 'terraform scan' is NOT a valid Terraform command.
-                // You probably meant 'tfsec .' or 'terrascan scan .'
-                sh 'tfsec .'
+                dir('Infrajenkinspipeline') {
+                    // Use tfsec to scan Terraform code for security issues
+                    sh 'tfsec .'
+                }
             }
         }
 
         stage('Lint') {
             steps {
-                sh 'tflint'
+                dir('Infrajenkinspipeline') {
+                    // Use tflint to check Terraform best practices
+                    sh 'tflint'
+                }
             }
         }
 
         stage('Terraform Plan') {
             steps {
-                sh 'terraform plan'
+                dir('Infrajenkinspipeline') {
+                    sh 'terraform plan'
+                }
             }
         }
 
         stage('Terraform Apply') {
             steps {
-                sh 'terraform apply -auto-approve'
+                dir('Infrajenkinspipeline') {
+                    sh 'terraform apply -auto-approve'
+                }
             }
         }
     }
-}
 }
