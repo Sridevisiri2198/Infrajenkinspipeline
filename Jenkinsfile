@@ -1,47 +1,55 @@
-pipeline{
-    agent{
+pipeline {
+    agent {
         label 'JAVA'
     }
 
     stages {
-        stage('git checkout') {
+        stage('Git Checkout') {
             steps {
-                git url:'https://github.com/Sridevisiri2198/Infrajenkinspipeline.git',
-                branch:'main'
+                git branch: 'main', url: 'https://github.com/Sridevisiri2198/Infrajenkinspipeline.git'
             }
         }
-        stage('terraform init'){
-            steps{
+
+        stage('Terraform Init') {
+            steps {
                 sh 'terraform init'
             }
         }
-        stage('terraform validate'){
-            steps{
+
+        stage('Terraform Validate') {
+            steps {
                 sh 'terraform validate'
             }
         }
-        stage('terraform format'){
-            steps{
+
+        stage('Terraform Format') {
+            steps {
                 sh 'terraform fmt'
             }
         }
-        stage('infra scan'){
-            steps{
-                sh 'terraform scan'
+
+        stage('Infra Scan') {
+            steps {
+                // 'terraform scan' is NOT a valid Terraform command.
+                // You probably meant 'tfsec .' or 'terrascan scan .'
+                sh 'tfsec .'
             }
         }
-        stage('lint'){
-            steps{
+
+        stage('Lint') {
+            steps {
                 sh 'tflint'
             }
         }
-        stage('terraform plan'){
-            steps{
+
+        stage('Terraform Plan') {
+            steps {
                 sh 'terraform plan'
             }
         }
-        stage('terraform apply'){
-            steps{
+
+        stage('Terraform Apply') {
+            steps {
                 sh 'terraform apply -auto-approve'
             }
         }
