@@ -8,7 +8,7 @@ resource "aws_vpc" "myvpc" {
 resource "aws_subnet" "subnet1" {
   vpc_id = aws_vpc.myvpc.id
   cidr_block = "10.0.0.0/24"
-  availability_zone = "ap-south-1a"
+  availability_zone = "eu-north-1b"
   tags = {
     Name="web"
   }
