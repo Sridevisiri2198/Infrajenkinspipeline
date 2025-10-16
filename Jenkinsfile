@@ -1,9 +1,8 @@
 pipeline {
-    agent {
-        label 'JAVA'
-    }
+    agent { label 'JAVA' }
 
     stages {
+
         stage('Git Checkout') {
             steps {
                 git url: 'https://github.com/Sridevisiri2198/Infrajenkinspipeline.git', branch: 'main'
@@ -34,19 +33,18 @@ pipeline {
             }
         }
 
-        stage('Infra Scan') {
+        stage('Infra Scan (tfsec)') {
             steps {
                 dir('tffiles') {
-                    // Use tfsec to scan Terraform code for security issues
+                    // Run tfsec, but do not fail the pipeline if issues are found
                     sh 'tfsec --soft-fail .'
                 }
             }
         }
 
-        stage('Lint') {
+        stage('Lint (tflint)') {
             steps {
                 dir('tffiles') {
-                    // Use tflint to check Terraform best practices
                     sh 'tflint'
                 }
             }
@@ -55,7 +53,8 @@ pipeline {
         stage('Terraform Plan') {
             steps {
                 dir('tffiles') {
-                    sh 'terraform plan'
+                    // Save the plan to a file so apply uses the exact same actions
+                    sh 'terraform plan -out=tfplan'
                 }
             }
         }
@@ -63,7 +62,7 @@ pipeline {
         stage('Terraform Apply') {
             steps {
                 dir('tffiles') {
-                    sh 'terraform apply -auto-approve'
+                    sh 'terraform apply -auto-approve tfplan'
                 }
             }
         }
