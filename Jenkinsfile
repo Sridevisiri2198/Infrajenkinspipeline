@@ -12,7 +12,9 @@ pipeline {
 
         stage('Terraform Init') {
             steps {
+                dir(Infrajenkinspipeline) {
                 sh 'terraform init'
+                
             }
         }
 
