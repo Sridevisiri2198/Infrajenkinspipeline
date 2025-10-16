@@ -12,7 +12,7 @@ pipeline {
 
         stage('Terraform Init') {
             steps {
-                dir('Infrajenkinspipeline') {
+                dir('tffiles') {
                     sh 'terraform init'
                 }
             }
@@ -20,7 +20,7 @@ pipeline {
 
         stage('Terraform Validate') {
             steps {
-                dir('Infrajenkinspipeline') {
+                dir('tffiles') {
                     sh 'terraform validate'
                 }
             }
@@ -28,7 +28,7 @@ pipeline {
 
         stage('Terraform Format') {
             steps {
-                dir('Infrajenkinspipeline') {
+                dir('tffiles') {
                     sh 'terraform fmt'
                 }
             }
@@ -36,7 +36,7 @@ pipeline {
 
         stage('Infra Scan') {
             steps {
-                dir('Infrajenkinspipeline') {
+                dir('tffiles') {
                     // Use tfsec to scan Terraform code for security issues
                     sh 'tfsec .'
                 }
@@ -45,7 +45,7 @@ pipeline {
 
         stage('Lint') {
             steps {
-                dir('Infrajenkinspipeline') {
+                dir('tffiles') {
                     // Use tflint to check Terraform best practices
                     sh 'tflint'
                 }
@@ -54,7 +54,7 @@ pipeline {
 
         stage('Terraform Plan') {
             steps {
-                dir('Infrajenkinspipeline') {
+                dir('tffiles') {
                     sh 'terraform plan'
                 }
             }
@@ -62,7 +62,7 @@ pipeline {
 
         stage('Terraform Apply') {
             steps {
-                dir('Infrajenkinspipeline') {
+                dir('tffiles') {
                     sh 'terraform apply -auto-approve'
                 }
             }
